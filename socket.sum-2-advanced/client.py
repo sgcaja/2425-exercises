@@ -12,10 +12,12 @@ numbers = [int(x) for x in sys.argv[2:]] #Numbers es una lista, se itera sobre t
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s: #Se crea el socket IPV4 tipo UDP
     data_format = "!" + "h" * len(numbers) #Se establece formato, longitud de la lista de numbers
+
     print(f"Message format is: {data_format}") #Demuestra el formato
 
 #   SE EMPAQUETA
     data = struct.pack(data_format, *numbers) #Empaqueta la informacion, especificando el formato !hh * descompone la lista, en vez de pasar [3, 4] pasa 3, 4
+    
     s.sendto(data, (ip, 1234)) #Envia al servidor los datos empaquetados, se indica la ip y el puerto
 
     data = s.recv(1024) #Recibe un mensaje del servidor tam 1024 y lo almacena en 'data', este mensaje esta en bYTES (empaquetado)
